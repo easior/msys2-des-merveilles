@@ -1,0 +1,26 @@
+# Maintainer : Lars EASIOR <easior(dot)lars(at)gmail(dot)com>
+
+pkgname=wxsqlite3-3.0
+_pkgname=wxsqlite3
+pkgver=4.7.6
+pkgrel=1
+pkgdesc="wxWidgets wrapper for SQLite3, build for wxWidgets 3.0"
+arch=('i686' 'x86_64')
+url="http://wxcode.sourceforge.net/components/wxsqlite3/"
+license=('custom:wxWindows')
+depends=('wxWidgets3.0' 'sqlite3')
+source=("https://github.com/utelle/wxsqlite3/archive/refs/tags/v${pkgver}.tar.gz")
+sha1sums=('a7be92b441b26dfdb94908eb6ac96ee4a0ed335b')
+
+build() {
+  cd ${_pkgname}-${pkgver}
+  ./configure --prefix=/usr --with-wx-config=/usr/bin/wx-config-3.0
+  make
+}
+
+package() {
+  cd ${_pkgname}-${pkgver}
+  make DESTDIR="${pkgdir}/" install
+  # license
+  install -Dm644 LICENCE.txt "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
