@@ -1,7 +1,4 @@
-# Maintainer: Gaetan Bisson <bisson@archlinux.org>
-# Contributor: Jason Chu <jason@archlinux.org>
-# Contributor: Tom Newsom <Jeepster@gmx.co.uk>
-# Contributor: damir <damir@archlinux.org>
+# Maintainer : Lars EASIOR <easior(dot)lars(at)gmail(dot)com>
 
 _realname=gnugo
 pkgbase="mingw-w64-${_realname}"
