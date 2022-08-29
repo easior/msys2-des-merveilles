@@ -1,0 +1,43 @@
+# Maintainer: Lars Easior <easior(dot)lars(at)gmail(dot)com>
+
+_realname=wxGlade
+pkgbase="mingw-w64-${_realname}"
+pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
+pkgver=1.0.4
+pkgrel=1
+pkgdesc="wxGlade is a GUI designer written in Python with the popular GUI toolkit wxPython, that helps you create wxWidgets/wxPython user interfaces. It can generate Python, C++, Perl, Lisp and XRC (wxWidgets' XML resources) code."
+arch=('any')
+mingw_arch=('mingw32' 'mingw64' 'ucrt64' 'clang64')
+url="http://wxglade.sourceforge.net"
+license=(custom:wxWindows)
+depends=("${MINGW_PACKAGE_PREFIX}-wxPython")
+#makedepends=("${MINGW_PACKAGE_PREFIX}-cmake")
+source=("http://downloads.sourceforge.net/wxglade/${_realname}-${pkgver}.zip")
+#md5sums=('40ebdc284ca29a09309ff1eb0b5c0562')
+md5sums=('SKIP')
+
+package() {
+  cd ${_realname}-${pkgver}
+  # make dirs
+  mkdir -p ${pkgdir}${MINGW_PREFIX}/bin
+  mkdir -p ${pkgdir}${MINGW_PREFIX}/lib/${_realname}
+
+  # copy files needed at runtime
+  cp -p *.py               ${pkgdir}${MINGW_PREFIX}/lib/${_realname}
+  cp -p CREDITS.txt        ${pkgdir}${MINGW_PREFIX}/lib/${_realname}
+  cp -p LICENSE.txt        ${pkgdir}${MINGW_PREFIX}/lib/${_realname}
+  cp -pr codegen           ${pkgdir}${MINGW_PREFIX}/lib/${_realname}
+  cp -pr wcodegen          ${pkgdir}${MINGW_PREFIX}/lib/${_realname}
+  cp -pr docs              ${pkgdir}${MINGW_PREFIX}/lib/${_realname}
+  cp -pr edit_sizers       ${pkgdir}${MINGW_PREFIX}/lib/${_realname}
+  cp -pr icons             ${pkgdir}${MINGW_PREFIX}/lib/${_realname}
+  cp -pr widgets           ${pkgdir}${MINGW_PREFIX}/lib/${_realname}
+
+  # make a launcher script
+  cat > ${pkgdir}${MINGW_PREFIX}/bin/wxglade <<EOF
+#!/bin/bash
+exec python ${MINGW_PREFIX}/lib/${_realname}/wxglade.py \$@
+EOF
+  chmod +x ${pkgdir}${MINGW_PREFIX}/bin/wxglade
+}
+
