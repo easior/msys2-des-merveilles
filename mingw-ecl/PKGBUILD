@@ -1,0 +1,25 @@
+# Maintainer : Lars EASIOR <easior(dot)lars(at)gmail(dot)com>
+
+_realname=ecl
+pkgbase="mingw-w64-${_realname}"
+pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
+pkgver=21.2.1
+pkgrel=1
+pkgdesc="Embeddable Common Lisp"
+url="https://common-lisp.net/project/ecl/"
+license=('GPL')
+arch=('any')
+mingw_arch=('mingw32' 'mingw64' 'ucrt64' 'clang64')
+source=("https://ecl.common-lisp.dev/static/files/release/${_realname}-${pkgver}.tgz")
+md5sums=('SKIP')
+
+build() {
+  cd "${srcdir}/${_realname}-${pkgver}"
+  ./configure --prefix=${MINGW_PREFIX}
+  make
+}
+
+package() {
+  cd "${srcdir}/${_realname}-${pkgver}"
+  make DESTDIR="$pkgdir" install
+}

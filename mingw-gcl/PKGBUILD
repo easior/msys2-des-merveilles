@@ -1,0 +1,25 @@
+# Maintainer : Lars EASIOR <easior(dot)lars(at)gmail(dot)com>
+
+_realname=gcl
+pkgbase="mingw-w64-${_realname}"
+pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
+pkgver=2.6.13
+pkgrel=1
+pkgdesc="GNU Common Lisp"
+url="http://www.gnu.org/software/gcl/"
+license=('GPL')
+arch=('any')
+mingw_arch=('mingw32' 'mingw64' 'ucrt64' 'clang64')
+source=('http://ftpmirror.gnu.org/gcl/gcl-2.6.12.tar.gz')
+md5sums=('SKIP')
+
+build() {
+  cd "${srcdir}/${_realname}"
+  ./configure --prefix=${MINGW_PREFIX} --enable-xdr=no --enable-xgcl=no
+  make
+}
+
+package() {
+  cd "${srcdir}/${_realname}"
+  make DESTDIR="$pkgdir" install
+}
