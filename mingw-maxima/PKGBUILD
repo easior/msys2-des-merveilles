@@ -1,0 +1,40 @@
+# Maintainer: Lars Easior <easior(dot)lars(at)gmail(dot)com>
+
+_realname=maxima
+pkgbase="mingw-w64-${_realname}"
+pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
+pkgver=5.46.0
+pkgrel=1
+pkgdesc="Sophisticated computer algebra system"
+arch=('any')
+mingw_arch=('mingw32' 'mingw64' 'ucrt64' 'clang64')
+url="http://maxima.sourceforge.net"
+license=('GPL')
+depends=("${MINGW_PACKAGE_PREFIX}-sbcl")
+makedepends=('texinfo' 'perl')
+optdepends=("${MINGW_PACKAGE_PREFIX}-gnuplot: plotting capabilities"
+	"${MINGW_PACKAGE_PREFIX}-rlwrap: readline support via /usr/bin/rmaxima")
+provides=("${MINGW_PACKAGE_PREFIX}-maxima")
+conflicts=("${MINGW_PACKAGE_PREFIX}-maxima")
+#options=('!makeflags' '!zipman')
+source=("http://downloads.sourceforge.net/maxima/${_realname}-${pkgver}.tar.gz")
+#ha256sums=('SKIP'
+#            'd7ba38d5f35a6322b569e33a132eecf2fba36d4bc124ba75caa8e57f81753c20')
+md5sums=('SKIP')
+
+build() {
+  cd "${_realname}-${pkgver}"
+  ./bootstrap
+  ./configure --prefix=${MINGW_PREFIX} --mandir=${MINGW_PREFIX}/share/man \
+    --infodir=${MINGW_PREFIX}/share/info  --libexecdir=${MINGW_PREFIX}/lib \
+    --enable-sbcl --with-default-lisp=sbcl
+  make
+}
+
+package() {
+  cd "${_realname}-${pkgver}"
+  make DESTDIR="$pkgdir/" \
+       emacsdir=${MINGW_PREFIX}/share/emacs/site-lisp/maxima install  
+#  install -Dm644 "$srcdir"/maxima.desktop \
+#  	  "$pkgdir"/usr/share/applications/${pkgname}.desktop
+}

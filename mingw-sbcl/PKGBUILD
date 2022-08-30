@@ -1,0 +1,49 @@
+# Failed in building because of no host common lisp
+# Maintainer: Lars Easior <easior(dot)lars(at)gmail(dot)com>
+
+_realname=sbcl
+pkgbase="mingw-w64-${_realname}"
+pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
+pkgver=2.2.7
+pkgrel=1
+pkgdesc="Steel Bank Common Lisp"
+arch=('any')
+mingw_arch=('mingw32' 'mingw64' 'ucrt64' 'clang64')
+url="http://www.sbcl.org"
+license=('GPL')
+depends=('automake' 'zlib')
+provides=("${MINGW_PACKAGE_PREFIX}-sbcl")
+conflicts=("${MINGW_PACKAGE_PREFIX}-sbcl")
+source=("https://github.com/${_realname}/${_realname}/archive/refs/tags/${_realname}-${pkgver}.tar.gz")
+#md5sums=() #generate with 'makepkg -g'
+md5sums=('SKIP')
+
+build() {
+  cd "${_realname}-${_realname}-${pkgver}"
+  # cd "$srcdir"
+  # msg "Connecting to GIT server...."
+
+  # if [[ -d "$_gitname" ]]; then
+  #   cd "$_gitname" && git pull origin
+  #   msg "The local files are updated."
+  # else
+  #   git clone "$_gitroot" "$_gitname"
+  # fi
+
+  # msg "GIT checkout done or server timeout"
+  # msg "Starting build..."
+
+  # rm -rf "$srcdir/$_gitname-build"
+  # git clone "$srcdir/$_gitname" "$srcdir/$_gitname-build"
+  # cd "$srcdir/$_gitname-build"
+
+  #
+  # BUILD HERE
+  #
+  sh make.sh
+}
+
+package() {
+  cd "$srcdir/$_gitname-build"
+  INSTALL_ROOT="$pkgdir/" ./install.sh
+}
