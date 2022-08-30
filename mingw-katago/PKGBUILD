@@ -6,11 +6,11 @@ pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
 pkgver=1.9.1
 pkgrel=1
 pkgdesc="Baduk engine with no human-provided knowledge. This package is compiles katago with CPU and AVX2 support."
+url="https://github.com/lightvector/KataGo"
+license=('MIT')
 arch=('any')
 mingw_arch=('mingw32' 'mingw64' 'ucrt64' 'clang64')
 provides=("katago")
-url="https://github.com/lightvector/KataGo"
-license=('MIT')
 depends=("${MINGW_PACKAGE_PREFIX}-libzip" "${MINGW_PACKAGE_PREFIX}-boost")
 makedepends=("git" "cmake" "${MINGW_PACKAGE_PREFIX}-eigen3")
 source=("${_realname}::git+https://github.com/lightvector/KataGo#tag=v${pkgver}"
