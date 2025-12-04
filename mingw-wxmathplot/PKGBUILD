@@ -3,7 +3,7 @@
 _realname=wxmathplot
 pkgbase="mingw-w64-${_realname}"
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
-pkgver=0.1.2
+pkgver=0.2.0
 pkgrel=1
 pkgdesc="wxMathPlot is an add-on library for wxWidgets which provides a framework for easy plotting of mathematical functions, sampled data and generic 2D plots."
 url="http://wxmathplot.sourceforge.net"
@@ -12,22 +12,23 @@ arch=('any')
 mingw_arch=('mingw32' 'mingw64' 'ucrt64' 'clang64')
 depends=("${MINGW_PACKAGE_PREFIX}-wxWidgets")
 makedepends=("${MINGW_PACKAGE_PREFIX}-cmake")
-source=("http://downloads.sourceforge.net/wxmathplot/wxMathPlot-${pkgver}.tar.gz")
-md5sums=('40ebdc284ca29a09309ff1eb0b5c0562')
+source=("https://github.com/easior/wxMathPlot-svn/archive/refs/tags/v${pkgver}.tar.gz")
+#md5sums=('40ebdc284ca29a09309ff1eb0b5c0562')
+md5sums=('SKIP')
 
 build() {
   #cd "$srcdir/wxMathPlot-$pkgver"
-  cd ${_realname}-${pkgver}
+  cd wxMathPlot-svn-${pkgver}
   sed -i -e's/::wxLogError/wxLogError/g' src/mathplot.cpp
   sed -i -e's/#define new DEBUG_NEW/\/\/#define new DEBUG_NEW/g' src/mathplot.cpp
 
-  cmake -DCMAKE_INSTALL_PREFIX:PATH=$pkgdir/usr .
+  cmake ./ -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX}
   make
 }
 
 package() {
   #cd "$srcdir/wxMathPlot-$pkgver"
-  cd ${_realname}-${pkgver}
-  make install
+  cd wxMathPlot-svn-${pkgver}
+  make DESTDIR=$pkgdir install
 }
 
