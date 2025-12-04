@@ -12,14 +12,15 @@ arch=('any')
 mingw_arch=('mingw32' 'mingw64' 'ucrt64' 'clang64')
 depends=("${MINGW_PACKAGE_PREFIX}-ncurses")
 #validpgpkeys=('67CCE2F5220D3E03024A175B68E7E09135C3EC3E')
-source=("https://ftp.gnu.org/gnu/gnugo/${_realname}-${pkgver}.tar.gz"{,.sig})
-sha256sums=('da68d7a65f44dcf6ce6e4e630b6f6dd9897249d34425920bfdd4e07ff1866a72'
+source=("https://ftp.gnu.org/gnu/gnugo/${_realname}-${pkgver}.tar.gz") #{,.sig})
+sha256sums=(#'da68d7a65f44dcf6ce6e4e630b6f6dd9897249d34425920bfdd4e07ff1866a72'
             'SKIP')
 
 build() {
 	cd "${srcdir}/${_realname}-${pkgver}"
-	CFLAGS+=' -fcommon' # https://wiki.gentoo.org/wiki/Gcc_10_porting_notes/fno_common
-	./configure --prefix=${MINGW_PREFIX}
+	#CFLAGS+=' -fcommon' # https://wiki.gentoo.org/wiki/Gcc_10_porting_notes/fno_common
+	#./configure --prefix=${MINGW_PREFIX}
+	cmake -G "MSYS Makefiles"
 	make
 }
 
